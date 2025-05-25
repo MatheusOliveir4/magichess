@@ -11,8 +11,15 @@ public class Bisp extends Piece {
 
     @Override
     public void movement(int newX, int newY, Piece destinyPlace) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'movement'");
+        int dx = newX - this.getPosX();
+        int dy = newY - this.getPosY();
+
+        if (Math.abs(dx) == Math.abs(dy) && destinyPlace == null) {
+            this.setPosX(newX);
+            this.setPosY(newY);
+        } else {
+            throw new Error("Movimento inválido para o Bispo na posição: (" + getPosX() + ", " + getPosY() + ")");
+        }
     }
     
 }

@@ -11,8 +11,19 @@ public class King extends Piece{
 
     @Override
     public void movement(int newX, int newY, Piece destinyPlace) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'movement'");
+        int dx= this.getPosX();
+        int dy= this.getPosY();
+        if (Math.abs(newX - dx) <= 1 && Math.abs(newY - dy) <= 1) {
+            if (destinyPlace == null || destinyPlace.getColor() != this.getColor()) {
+                this.setPosX(newX);
+                this.setPosY(newY);
+            } else {
+                throw new Error("Movimento inválido para o Rei na posição: (" + getPosX() + ", " + getPosY() + ")");
+            }
+        } else {
+            throw new Error("Movimento inválido para o Rei na posição: (" + getPosX() + ", " + getPosY() + ")");
+        }
+    
     }
     
 }

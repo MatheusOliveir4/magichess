@@ -10,9 +10,19 @@ public class Tower extends Piece{
     }
 
     @Override
-    public void movement(int newX, int newY, Piece destinyPlace) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'movement'");
+public void movement(int newX, int newY, Piece destinyPlace) {
+    int dx = newX - this.getPosX(); 
+    int dy = newY - this.getPosY();
+
+    
+    if (((dx != 0 && dy == 0) || (dx == 0 && dy != 0)) && destinyPlace == null) {
+        this.setPosX(newX);
+        this.setPosY(newY);
+    } else {
+        throw new Error("Movimento inválido para a Torre na posição: (" + getPosX() + ", " + getPosY() + ")");
+    }
+}
+
     }
     
-}
+
