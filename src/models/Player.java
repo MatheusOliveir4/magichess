@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.enums.Color;
+import models.pieces.Piece;
 
 public class Player {
     private Color color;
