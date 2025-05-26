@@ -14,14 +14,15 @@ public class Queen extends Piece{
         int dx = newX - this.getPosX();
         int dy = newY - this.getPosY();
 
-         if (((dx != 0 && dy == 0) || (dx == 0 && dy != 0) || (Math.abs(dx) == Math.abs(dy))) && destinyPlace == null) {
+         if (((dx != 0 && dy == 0) || (dx == 0 && dy != 0) || (Math.abs(dx) == Math.abs(dy)))){
+            if (destinyPlace == null || destinyPlace.getColor() != this.getColor()) {
                 this.setPosX(newX);
                 this.setPosY(newY);
+            }   
           } else {
                 throw new Error("Movimento inválido para a Rainha na posição: (" + getPosX() + ", " + getPosY() + ")");
           }        
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'movement'");
+        
     }
     
 }

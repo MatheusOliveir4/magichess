@@ -24,7 +24,7 @@ public class Pawn extends Piece {
             this.setPosX(newX);
             firstMovement = true;
 
-        } else if (dx == 1 && dy == 1 && destinyPlace != null) {
+        } else if (dx == 1 && dy == 1 && destinyPlace != null && destinyPlace.getColor() != this.getColor()) {
             this.setPosX(newX);
             this.setPosY(newY);
             firstMovement = true;

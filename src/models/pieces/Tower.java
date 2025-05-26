@@ -10,14 +10,16 @@ public class Tower extends Piece{
     }
 
     @Override
-public void movement(int newX, int newY, Piece destinyPlace) {
+    public void movement(int newX, int newY, Piece destinyPlace) {
     int dx = newX - this.getPosX(); 
     int dy = newY - this.getPosY();
 
     
-    if (((dx != 0 && dy == 0) || (dx == 0 && dy != 0)) && destinyPlace == null) {
+    if (((dx != 0 && dy == 0) || (dx == 0 && dy != 0))) {
+        if (destinyPlace== null || destinyPlace.getColor() != this.getColor()){
         this.setPosX(newX);
         this.setPosY(newY);
+        }
     } else {
         throw new Error("Movimento inválido para a Torre na posição: (" + getPosX() + ", " + getPosY() + ")");
     }

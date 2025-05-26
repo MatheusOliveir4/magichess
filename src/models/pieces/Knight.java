@@ -17,8 +17,6 @@ public class Knight extends Piece {
             if (destinyPlace == null || destinyPlace.getColor() != this.getColor()) {
                 this.setPosX(newX);
                 this.setPosY(newY);
-            } else {
-                throw new Error("Movimento inválido para o Cavalo na posição: (" + getPosX() + ", " + getPosY() + ")");
             }
         } else {
             throw new Error("Movimento inválido para o Cavalo na posição: (" + getPosX() + ", " + getPosY() + ")");
