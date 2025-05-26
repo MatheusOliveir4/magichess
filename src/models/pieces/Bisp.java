@@ -1,5 +1,6 @@
 package models.pieces;
 
+import models.Board;
 import models.enums.Color;
 import models.enums.PieceType;
 
@@ -11,17 +12,37 @@ public class Bisp extends Piece {
 
     @Override
     public void movement(int newX, int newY, Piece destinyPlace) {
-        int dx = newX - this.getPosX();
-        int dy = newY - this.getPosY();
+        int currentX = this.getPosX();
+        int currentY = this.getPosY();
+        int dx = newX - currentX;
+        int dy = newY - currentY;
 
-        if (Math.abs(dx) == Math.abs(dy) && dx != 0) {
-            if (destinyPlace == null || destinyPlace.getColor() != this.getColor()) {
-                this.setPosX(newX);
-                this.setPosY(newY);
-            } 
+        if (Math.abs(dx) != Math.abs(dy) || dx == 0) {
+            throw new IllegalArgumentException("Movimento inválido para o Bispo na posição: (" + currentX + ", " + currentY + ")");
+        }
+
+        int stepX = dx > 0 ? 1 : -1;
+        int stepY = dy > 0 ? 1 : -1;
+
+        int x = currentX + stepX;
+        int y = currentY + stepY;
+
+        // Verifica se há peças no caminho até o destino
+        while (x != newX && y != newY) {
+            if (Board.getPieceFromBoard(x, y) != null) {
+                throw new IllegalStateException("Caminho bloqueado por peça em: (" + x + ", " + y + ")");
+            }
+            x += stepX;
+            y += stepY;
+        }
+
+        // Verifica se pode capturar (ou mover para casa vazia)
+        Piece targetPiece = Board.getPieceFromBoard(newX, newY);
+        if (targetPiece == null || targetPiece.getColor() != this.getColor()) {
+            this.setPosX(newX);
+            this.setPosY(newY);
         } else {
-            throw new Error("Movimento inválido para o Bispo na posição: (" + getPosX() + ", " + getPosY() + ")");
+            throw new IllegalStateException("Não pode capturar uma peça da mesma cor.");
         }
     }
-    
 }
