@@ -4,6 +4,13 @@ import models.enums.Color;
 import models.pieces.Piece;
 
 public class GameLogic {
+    public static Player getWhitePlayer() {
+        return whitePlayer;
+    }
+
+    public static Player getBlackPlayer() {
+        return blackPlayer;
+    }
     
     private static Player whitePlayer;
     private static Player blackPlayer;

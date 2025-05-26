@@ -51,15 +51,26 @@ public class Board {
     }
 
     public static void updateBoard() {
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                GRID[x][y] = null;
-            }
+    for (int x = 0; x < 8; x++) {
+        for (int y = 0; y < 8; y++) {
+            GRID[x][y] = null;
         }
-
-        // for (Piece p : whitePlayer.getPieces()) grid[p.getPositionX()][p.getPositionY()] = p;
-        // for (Piece p : blackPlayer.getPieces()) grid[p.getPositionX()][p.getPositionY()] = p;
     }
+
+    Player whitePlayer = GameLogic.getWhitePlayer();
+    Player blackPlayer = GameLogic.getBlackPlayer();
+
+    if (whitePlayer != null) {
+        for (Piece p : whitePlayer.getPieces()) {
+            GRID[p.getPosX()][p.getPosY()] = p;
+        }
+    }
+    if (blackPlayer != null) {
+        for (Piece p : blackPlayer.getPieces()) {
+            GRID[p.getPosX()][p.getPosY()] = p;
+        }
+    }
+}
 
     public static Piece getPieceFromBoard(int posX, int posY) {
         return GRID[posX][posY];
