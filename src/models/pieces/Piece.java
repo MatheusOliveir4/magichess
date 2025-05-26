@@ -15,17 +15,7 @@ public abstract class Piece {
         this.color = color;
         this.pieceSurname = pieceSurname;
     }
-     private boolean caminhoLivre(int fromX, int fromY, int toX, int toY) {
-        int dx = Integer.compare(toX, fromX);
-        int dy = Integer.compare(toY, fromY);
-        int x = fromX + dx, y = fromY + dy;
-        while (x != toX || y != toY) {
-            if (grid[x][y] != null) return false;
-            x += dx;
-            y += dy;
-        }
-        return true;
-    }
+    
     public abstract void movement(int newX, int newY, Piece destinyPlace);
 
     @Override public String toString() {
