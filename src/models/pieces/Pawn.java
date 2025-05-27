@@ -16,7 +16,9 @@ public class Pawn extends Piece {
         int dx = newX - this.getPosX(); 
         int dy = newY - this.getPosY(); 
 
-        if (dx == 2 && dy == 0 && firstMovement) {
+        dx = (this.getColor() == Color.WHITE) ? dx * (-1) : dx;
+
+        if (dx == 2 && dy == 0 && !firstMovement) {
             this.setPosX(newX);
             firstMovement = true;
 
@@ -28,6 +30,10 @@ public class Pawn extends Piece {
             this.setPosX(newX);
             this.setPosY(newY);
             firstMovement = true;
+
+            System.out.println(destinyPlace.getPosX() + " " + destinyPlace.getPosY() + " " + destinyPlace.getPieceSurname());
+
+            destinyPlace = null;
        
         } else {
             throw new IllegalStateException("Nao foi possivel mover peca na posicao: (" + getPosX() + ", " + getPosY() + ")");

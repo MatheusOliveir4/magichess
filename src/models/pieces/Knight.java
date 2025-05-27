@@ -13,6 +13,7 @@ public class Knight extends Piece {
     public void movement(int newX, int newY, Piece destinyPlace) {
         int dx = newX - this.getPosX();
         int dy = newY - this.getPosY();
+        
         if ((Math.abs(dx)== 2 && Math.abs(dy) == 1) || (Math.abs(dx) == 1 && Math.abs(dy) == 2)) {
             if (destinyPlace == null || destinyPlace.getColor() != this.getColor()) {
                 this.setPosX(newX);

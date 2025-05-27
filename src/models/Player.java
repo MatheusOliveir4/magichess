@@ -36,7 +36,7 @@ public class Player {
         return pieces;
     }
 
-    public void setPieces(List<Piece> pieces) {
-        this.pieces = pieces;
+    public void addPieces(Piece piece) {
+        this.pieces.add(piece);
     }
 }
