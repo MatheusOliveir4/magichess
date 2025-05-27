@@ -22,7 +22,9 @@ public class GameLogic {
         initializePlayerPieces(Color.BLACK, blackPlayer);
 
         actualPlayer = whitePlayer;
-    }
+        whitePlayer.setPlayerTurn(true);
+        blackPlayer.setPlayerTurn(false);
+}
 
     public static void initializePlayerPieces(Color color, Player player) {
         int row = (color == Color.WHITE) ? 7 : 0;
@@ -45,29 +47,26 @@ public class GameLogic {
 
     public static void movePiece(int posX, int posY, int newX, int newY) throws Exception {
         if (posX < 0 || posX >= 8 || posY < 0 || posY >= 8 || newX < 0 || newX >= 8 || newY < 0 || newY >= 8) {
-            throw new Error("Posicoes invalidas");
+            throw new Exception("Posicoes invalidas");
         }
-       
+    
         Piece piece = Board.getPieceFromBoard(posX, posY);
         Piece destinyPlace = Board.getPieceFromBoard(newX, newY);
 
-        
         if (piece == null ) {
             throw new Exception("Selecione uma peca valida");
         }
 
-        System.out.println(piece.getPieceSurname());
+        // Verifica se a peça pertence ao jogador do turno
+        if (piece.getColor() != actualPlayer.getColor()) {
+            throw new Exception("Não é o seu turno!");
+        }
 
         piece.movement(newX, newY, destinyPlace);  
 
         if (destinyPlace != null) {
             Player opponent = (actualPlayer.getColor() == Color.WHITE) ? blackPlayer : whitePlayer;
-
-            System.out.println(opponent.getColor() + " " + actualPlayer.getColor());
-
-
             boolean removido  =  opponent.getPieces().remove(destinyPlace);
-            System.out.println(removido);
         }
         
         Board.updateBoard();
@@ -75,8 +74,16 @@ public class GameLogic {
     }
 
     public static void swapPlayer() {
-        actualPlayer = (actualPlayer.getColor() == Color.WHITE) ? blackPlayer : whitePlayer;
-    }
+        if (actualPlayer.getColor() == Color.WHITE) {
+            actualPlayer = blackPlayer;
+            whitePlayer.setPlayerTurn(false);
+            blackPlayer.setPlayerTurn(true);
+        } else {
+            actualPlayer = whitePlayer;
+            whitePlayer.setPlayerTurn(true);
+            blackPlayer.setPlayerTurn(false);
+        }
+}
     
     public static boolean isGameOver() {
         return false;
@@ -84,8 +91,9 @@ public class GameLogic {
     
     public static void printGame() {
         Board.printBoard();
+        System.out.println("\nVez de jogar: " + (actualPlayer.getColor() == Color.WHITE ? "Brancas" : "Pretas"));
         printHelp();
-    }
+}
 
     public static Player getWhitePlayer() {
         return whitePlayer;

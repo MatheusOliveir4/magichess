@@ -14,7 +14,7 @@ public class Main {
             try {
                 GameLogic.printGame();
                 
-                System.out.print("\nDigite seu comando ('help', 'move (Peca de Origem) (Destino)', 'use (Numero da Carta)', 'pass'): ");
+                System.out.print("\nDigite seu comando ('help', 'move (Peca de Origem) (Destino)', 'use (Numero da Carta)): ");
                 if (!sc.hasNextLine()) {
                     System.out.println("Entrada encerrada. Jogo finalizado.");
                     break;
@@ -39,7 +39,7 @@ public class Main {
                         int toX = 8 - Character.getNumericValue(parts[2].charAt(1));
                         int toY = parts[2].charAt(0) - 'a';
                         
-                        System.out.println(fromX + " " + fromY + " " + toX + " " + toY );
+                        
 
                         GameLogic.movePiece(fromX, fromY, toX, toY);
 
@@ -50,7 +50,7 @@ public class Main {
                 } 
 
             } catch (Exception e) {
-
+                System.out.println("Erro: " + e.getMessage());
             }
 
         } while (true);
