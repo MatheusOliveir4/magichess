@@ -20,7 +20,7 @@ public class King extends Piece {
                 this.setPosY(newY);
             }
         } else {
-            throw new Error("Movimento inválido para o Rei na posição: (" + getPosX() + ", " + getPosY() + ")");
+            throw new IllegalStateException("Movimento inválido para o Rei na posição: (" + getPosX() + ", " + getPosY() + ")");
         }
     }
 }

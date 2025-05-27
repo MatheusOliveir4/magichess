@@ -19,7 +19,7 @@ public class Knight extends Piece {
                 this.setPosY(newY);
             }
         } else {
-            throw new Error("Movimento inválido para o Cavalo na posição: (" + getPosX() + ", " + getPosY() + ")");
+            throw new IllegalStateException("Movimento inválido para o Cavalo na posição: (" + getPosX() + ", " + getPosY() + ")");
         }
   
     }

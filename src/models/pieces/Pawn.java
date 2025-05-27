@@ -30,7 +30,7 @@ public class Pawn extends Piece {
             firstMovement = true;
        
         } else {
-            throw new Error("Nao foi possivel mover peca na posicao: (" + getPosX() + ", " + getPosY() + ")");
+            throw new IllegalStateException("Nao foi possivel mover peca na posicao: (" + getPosX() + ", " + getPosY() + ")");
         }
     }
     

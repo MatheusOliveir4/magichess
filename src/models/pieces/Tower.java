@@ -21,7 +21,7 @@ public class Tower extends Piece{
         this.setPosY(newY);
         }
     } else {
-        throw Exception("Movimento inválido para a Torre na posição: (" + getPosX() + ", " + getPosY() + ")");
+        throw new IllegalStateException("Movimento inválido para a Torre na posição: (" + getPosX() + ", " + getPosY() + ")");
     }
 }
 
