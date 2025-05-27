@@ -98,4 +98,11 @@ public class Board {
         System.out.println("   -------------------------");
         System.out.println("    a  b  c  d  e  f  g  h");
     }
+    public static Piece getPiece(int x, int y) {
+    return GRID[x][y];
+}
+
+    public static void setPiece(int x, int y, Piece piece) {
+    GRID[x][y] = piece;
+}
 }

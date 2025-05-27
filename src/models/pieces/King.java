@@ -22,7 +22,9 @@ public class King extends Piece {
         } else {
             throw new IllegalStateException("Movimento inválido para o Rei na posição: (" + getPosX() + ", " + getPosY() + ")");
         }
+        
     }
+    
 }
 
 

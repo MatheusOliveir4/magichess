@@ -46,32 +46,44 @@ public class GameLogic {
     }
 
     public static void movePiece(int posX, int posY, int newX, int newY) throws Exception {
-        if (posX < 0 || posX >= 8 || posY < 0 || posY >= 8 || newX < 0 || newX >= 8 || newY < 0 || newY >= 8) {
-            throw new Exception("Posicoes invalidas");
-        }
-    
-        Piece piece = Board.getPieceFromBoard(posX, posY);
-        Piece destinyPlace = Board.getPieceFromBoard(newX, newY);
-
-        if (piece == null ) {
-            throw new Exception("Selecione uma peca valida");
-        }
-
-        // Verifica se a peça pertence ao jogador do turno
-        if (piece.getColor() != actualPlayer.getColor()) {
-            throw new Exception("Não é o seu turno!");
-        }
-
-        piece.movement(newX, newY, destinyPlace);  
-
-        if (destinyPlace != null) {
-            Player opponent = (actualPlayer.getColor() == Color.WHITE) ? blackPlayer : whitePlayer;
-            boolean removido  =  opponent.getPieces().remove(destinyPlace);
-        }
-        
-        Board.updateBoard();
-        swapPlayer();
+    if (posX < 0 || posX >= 8 || posY < 0 || posY >= 8 || newX < 0 || newX >= 8 || newY < 0 || newY >= 8) {
+        throw new Exception("Posicoes invalidas");
     }
+
+    Piece piece = Board.getPieceFromBoard(posX, posY);
+    Piece destinyPlace = Board.getPieceFromBoard(newX, newY);
+
+    if (piece == null ) {
+        throw new Exception("Selecione uma peca valida");
+    }
+
+    // Verifica se a peça pertence ao jogador do turno
+    if (piece.getColor() != actualPlayer.getColor()) {
+        throw new Exception("Não é o seu turno!");
+    }
+
+    // Verifica se o movimento deixa o rei em xeque
+    if (moveLeavesKingInCheck(piece, posX, posY, newX, newY)) {
+        throw new Exception("Movimento ilegal: seu rei ficaria em xeque!");
+    }
+
+    piece.movement(newX, newY, destinyPlace);  
+
+    if (destinyPlace != null) {
+        Player opponent = (actualPlayer.getColor() == Color.WHITE) ? blackPlayer : whitePlayer;
+        opponent.getPieces().remove(destinyPlace);
+    }
+    
+    Board.updateBoard();
+    swapPlayer();
+
+    // Aviso de xeque para o próximo jogador
+    if (isKingInCheck(actualPlayer.getColor())) {
+        System.out.println("Atenção: seu rei está em xeque!");
+    }
+}
+     
+    
 
     public static void swapPlayer() {
         if (actualPlayer.getColor() == Color.WHITE) {
@@ -84,7 +96,56 @@ public class GameLogic {
             blackPlayer.setPlayerTurn(false);
         }
 }
-    
+    public static boolean isKingInCheck(models.enums.Color kingColor) {
+    Player player = (kingColor == Color.WHITE) ? whitePlayer : blackPlayer;
+    Player opponent = (kingColor == Color.WHITE) ? blackPlayer : whitePlayer;
+
+    Piece king = null;
+    for (Piece p : player.getPieces()) {
+        if (p instanceof models.pieces.King) {
+            king = p;
+            break;
+        }
+    }
+    if (king == null) return false;
+
+    int kingX = king.getPosX();
+    int kingY = king.getPosY();
+
+    for (Piece p : opponent.getPieces()) {
+        try {
+            p.movement(kingX, kingY, king);
+            return true;
+        } catch (Exception e) {
+            // Não pode atacar o rei
+        }
+    }
+    return false;
+}
+    public static boolean moveLeavesKingInCheck(Piece piece, int fromX, int fromY, int toX, int toY) {
+    Piece destinoOriginal = Board.getPiece(toX, toY);
+    int oldX = piece.getPosX();
+    int oldY = piece.getPosY();
+
+    // Simula o movimento
+    Board.setPiece(fromX, fromY, null);
+    Board.setPiece(toX, toY, piece);
+    piece.setPosX(toX);
+    piece.setPosY(toY);
+
+    boolean emXeque = isKingInCheck(piece.getColor());
+
+    // Desfaz o movimento
+    Board.setPiece(fromX, fromY, piece);
+    Board.setPiece(toX, toY, destinoOriginal);
+    piece.setPosX(oldX);
+    piece.setPosY(oldY);
+
+    return emXeque;
+}
+
+
+
     public static boolean isGameOver() {
         return false;
     }
