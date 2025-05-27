@@ -55,7 +55,15 @@ public abstract class Piece {
     public void setPieceSurname(PieceType pieceSurname) {
         this.pieceSurname = pieceSurname;
     }
+    protected boolean hasMoved = false;
 
+    public boolean hasMoved() {
+    return hasMoved;
+}
+
+    public void setHasMoved(boolean hasMoved) {
+    this.hasMoved = hasMoved;
+}
     
     @Override
     public boolean equals(Object obj) {

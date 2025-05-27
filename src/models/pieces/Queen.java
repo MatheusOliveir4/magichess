@@ -17,7 +17,7 @@ public class Queen extends Piece {
         int dx = newX - currentX;
         int dy = newY - currentY;
 
-        // Determinar o tipo de movimento válido
+        
         boolean diagonal = Math.abs(dx) == Math.abs(dy);
         boolean horizontal = dx == 0 && dy != 0;
         boolean vertical = dx != 0 && dy == 0;
@@ -32,7 +32,7 @@ public class Queen extends Piece {
         int x = currentX + stepX;
         int y = currentY + stepY;
 
-        // Verifica obstáculos no caminho (ignora destino por enquanto)
+        
         while (x != newX || y != newY) {
             if (Board.getPieceFromBoard(x, y) != null) {
                 throw new IllegalStateException("Caminho bloqueado por peça em: (" + x + ", " + y + ")");
@@ -41,7 +41,7 @@ public class Queen extends Piece {
             y += stepY;
         }
 
-        // Verifica destino
+        
         Piece target = Board.getPieceFromBoard(newX, newY);
         if (target == null || target.getColor() != this.getColor()) {
             this.setPosX(newX);

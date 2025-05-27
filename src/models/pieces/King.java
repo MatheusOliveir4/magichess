@@ -18,6 +18,7 @@ public class King extends Piece {
             if (destinyPlace == null || destinyPlace.getColor() != this.getColor()) {
                 this.setPosX(newX);
                 this.setPosY(newY);
+                this.setHasMoved(true);
             }
         } else {
             throw new IllegalStateException("Movimento inválido para o Rei na posição: (" + getPosX() + ", " + getPosY() + ")");

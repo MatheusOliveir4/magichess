@@ -57,12 +57,24 @@ public class GameLogic {
         throw new Exception("Selecione uma peca valida");
     }
 
-    // Verifica se a peça pertence ao jogador do turno
     if (piece.getColor() != actualPlayer.getColor()) {
         throw new Exception("Não é o seu turno!");
     }
 
-    // Verifica se o movimento deixa o rei em xeque
+    
+    if (piece instanceof models.pieces.King && Math.abs(newY - posY) == 2 && posX == newX) {
+        if (tentarRoque(piece, newX, newY)) {
+            Board.updateBoard();
+            swapPlayer();
+            if (isKingInCheck(actualPlayer.getColor())) {
+                System.out.println("Atenção: seu rei está em xeque!");
+            }
+            return;
+        } else {
+            throw new Exception("Roque não permitido!");
+        }
+    }
+
     if (moveLeavesKingInCheck(piece, posX, posY, newX, newY)) {
         throw new Exception("Movimento ilegal: seu rei ficaria em xeque!");
     }
@@ -77,7 +89,6 @@ public class GameLogic {
     Board.updateBoard();
     swapPlayer();
 
-    // Aviso de xeque para o próximo jogador
     if (isKingInCheck(actualPlayer.getColor())) {
         System.out.println("Atenção: seu rei está em xeque!");
     }
@@ -117,7 +128,7 @@ public class GameLogic {
             p.movement(kingX, kingY, king);
             return true;
         } catch (Exception e) {
-            // Não pode atacar o rei
+            
         }
     }
     return false;
@@ -127,7 +138,7 @@ public class GameLogic {
     int oldX = piece.getPosX();
     int oldY = piece.getPosY();
 
-    // Simula o movimento
+    
     Board.setPiece(fromX, fromY, null);
     Board.setPiece(toX, toY, piece);
     piece.setPosX(toX);
@@ -135,7 +146,7 @@ public class GameLogic {
 
     boolean emXeque = isKingInCheck(piece.getColor());
 
-    // Desfaz o movimento
+    
     Board.setPiece(fromX, fromY, piece);
     Board.setPiece(toX, toY, destinoOriginal);
     piece.setPosX(oldX);
@@ -143,7 +154,48 @@ public class GameLogic {
 
     return emXeque;
 }
+    public static boolean tentarRoque(Piece king, int newX, int newY) throws Exception {
+    if (!(king instanceof models.pieces.King) || king.hasMoved()) return false;
 
+    int dx = newX - king.getPosX();
+    int dy = newY - king.getPosY();
+
+    if (dx != 0 || Math.abs(dy) != 2) return false;
+
+    int row = king.getPosX();
+    int rookCol = (dy == 2) ? 7 : 0;
+    Piece rook = Board.getPiece(row, rookCol);
+
+    if (!(rook instanceof models.pieces.Tower) || rook.hasMoved()) return false;
+
+    int start = Math.min(king.getPosY(), rookCol) + 1;
+    int end = Math.max(king.getPosY(), rookCol) - 1;
+    for (int y = start; y <= end; y++) {
+        if (Board.getPiece(row, y) != null) return false;
+    }
+
+    int direction = (dy > 0) ? 1 : -1;
+    for (int i = 0; i <= 2; i++) {
+        int testY = king.getPosY() + i * direction;
+        if (moveLeavesKingInCheck(king, row, king.getPosY(), row, testY)) {
+            throw new Exception("Não é possível fazer o roque: rei passaria por xeque.");
+        }
+    }
+
+    // Move o rei
+    Board.setPiece(king.getPosX(), king.getPosY(), null);
+    king.setPosY(king.getPosY() + 2 * direction);
+    king.setHasMoved(true);
+    Board.setPiece(king.getPosX(), king.getPosY(), king);
+
+    // Move a torre
+    Board.setPiece(row, rookCol, null);
+    rook.setPosY(king.getPosY() - direction);
+    rook.setHasMoved(true);
+    Board.setPiece(row, rook.getPosY(), rook);
+
+    return true;
+}    
 
 
     public static boolean isGameOver() {

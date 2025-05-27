@@ -27,7 +27,7 @@ public class Bisp extends Piece {
         int x = currentX + stepX;
         int y = currentY + stepY;
 
-        // Verifica se há peças no caminho até o destino
+        
         while (x != newX && y != newY) {
             if (Board.getPieceFromBoard(x, y) != null) {
                 throw new IllegalStateException("Caminho bloqueado por peça em: (" + x + ", " + y + ")");
@@ -36,7 +36,7 @@ public class Bisp extends Piece {
             y += stepY;
         }
 
-        // Verifica se pode capturar (ou mover para casa vazia)
+        
         Piece targetPiece = Board.getPieceFromBoard(newX, newY);
         if (targetPiece == null || targetPiece.getColor() != this.getColor()) {
             this.setPosX(newX);
