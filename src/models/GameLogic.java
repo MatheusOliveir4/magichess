@@ -14,41 +14,27 @@ public class GameLogic {
     public static void startGame() {
         System.out.println(Board.TITLE_ART);
 
+        new Board();
+
         whitePlayer = new Player(Color.WHITE, true);
         initializePlayerPieces(Color.WHITE, whitePlayer);
         blackPlayer = new Player(Color.BLACK, false);
         initializePlayerPieces(Color.BLACK, blackPlayer);
 
-        for (Piece p : blackPlayer.getPieces()) {
-            System.out.println(p.getPieceSurname());
-        }
-
         actualPlayer = whitePlayer;
-
-        Board.updateBoard();
     }
-
 
     public static void initializePlayerPieces(Color color, Player player) {
         int row = (color == Color.WHITE) ? 7 : 0;
 
         player.addPieces(Board.getPieceFromBoard(row, 0));
-        player.addPieces(Board.getPieceFromBoard(row, 7));
         player.addPieces(Board.getPieceFromBoard(row, 1));
-        player.addPieces(Board.getPieceFromBoard(row, 6));
         player.addPieces(Board.getPieceFromBoard(row, 2));
-        player.addPieces(Board.getPieceFromBoard(row, 5));
         player.addPieces(Board.getPieceFromBoard(row, 3));
         player.addPieces(Board.getPieceFromBoard(row, 4));
-
-        // player.getPieces().add(Board.getPieceFromBoard(row, 0)); 
-        // player.getPieces().add(Board.getPieceFromBoard(row, 7));
-        // player.getPieces().add(Board.getPieceFromBoard(row, 1));
-        // player.getPieces().add(Board.getPieceFromBoard(row, 6));
-        // player.getPieces().add(Board.getPieceFromBoard(row, 2));
-        // player.getPieces().add(Board.getPieceFromBoard(row, 5));
-        // player.getPieces().add(Board.getPieceFromBoard(row, 3));
-        // player.getPieces().add(Board.getPieceFromBoard(row, 4));
+        player.addPieces(Board.getPieceFromBoard(row, 5));
+        player.addPieces(Board.getPieceFromBoard(row, 6));
+        player.addPieces(Board.getPieceFromBoard(row, 7));
 
         row = (color == Color.WHITE) ? 6 : 1;
 
@@ -56,6 +42,7 @@ public class GameLogic {
             player.addPieces(Board.getPieceFromBoard(row, i));
         }
     }
+
     public static void movePiece(int posX, int posY, int newX, int newY) throws Exception {
         if (posX < 0 || posX >= 8 || posY < 0 || posY >= 8 || newX < 0 || newX >= 8 || newY < 0 || newY >= 8) {
             throw new Error("Posicoes invalidas");
@@ -64,23 +51,25 @@ public class GameLogic {
         Piece piece = Board.getPieceFromBoard(posX, posY);
         Piece destinyPlace = Board.getPieceFromBoard(newX, newY);
 
+        
         if (piece == null ) {
             throw new Exception("Selecione uma peca valida");
         }
 
         System.out.println(piece.getPieceSurname());
 
-        piece.movement(newX, newY, destinyPlace);   
+        piece.movement(newX, newY, destinyPlace);  
+
+        if (destinyPlace != null) {
+            Player opponent = (actualPlayer.getColor() == Color.WHITE) ? blackPlayer : whitePlayer;
+
+            System.out.println(opponent.getColor() + " " + actualPlayer.getColor());
 
 
-        if (actualPlayer.getColor() == Color.WHITE) {
-            whitePlayer.getPieces().remove(destinyPlace);
+            boolean removido  =  opponent.getPieces().remove(destinyPlace);
+            System.out.println(removido);
+        }
         
-        } else if (actualPlayer.getColor() == Color.BLACK) {
-            blackPlayer.getPieces().remove(destinyPlace);
-
-        } 
-
         Board.updateBoard();
         swapPlayer();
     }

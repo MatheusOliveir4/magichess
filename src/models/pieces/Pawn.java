@@ -26,15 +26,13 @@ public class Pawn extends Piece {
             this.setPosX(newX);
             firstMovement = true;
 
-        } else if (dx == 1 && dy == 1 && destinyPlace != null && destinyPlace.getColor() != this.getColor()) {
+        } else if (dx == 1 && Math.abs(dy) == 1 && destinyPlace != null && destinyPlace.getColor() != this.getColor()) {
             this.setPosX(newX);
             this.setPosY(newY);
             firstMovement = true;
 
             System.out.println(destinyPlace.getPosX() + " " + destinyPlace.getPosY() + " " + destinyPlace.getPieceSurname());
 
-            destinyPlace = null;
-       
         } else {
             throw new IllegalStateException("Nao foi possivel mover peca na posicao: (" + getPosX() + ", " + getPosY() + ")");
         }

@@ -22,7 +22,32 @@ public class Board {
 
     private static Piece[][] GRID = new Piece[8][8];
 
-    public Board() {
+     public Board() {
+        initializePieces(Color.WHITE);
+        initializePieces(Color.BLACK);
+    }
+
+    public static void initializePieces(Color color) {
+        int row = (color == Color.WHITE) ? 7 : 0;
+
+        GRID[row][0] = new Tower(row, 0, color, PieceType.TOWER);
+        GRID[row][7] = new Tower(row, 7, color, PieceType.TOWER);
+
+        GRID[row][1] = new Knight(row, 1, color, PieceType.KNIGHT);
+        GRID[row][6] = new Knight(row, 6, color, PieceType.KNIGHT);
+
+        GRID[row][2] = new Bisp(row, 2, color, PieceType.BISP);
+        GRID[row][5] = new Bisp(row, 5, color, PieceType.BISP);
+
+        GRID[row][3] = new Queen(row, 3, color, PieceType.QUEEN);
+
+        GRID[row][4] = new King(row, 4, color, PieceType.KING);
+
+        row = (color == Color.WHITE) ? 6 : 1;
+
+        for (int i = 0; i < 8; i++) {
+            GRID[row][i] = new Pawn(row, i, color, PieceType.PAWN);
+        }
     }
 
     public static void updateBoard() {
@@ -40,6 +65,7 @@ public class Board {
         if (whitePlayer != null) {
             for (Piece p : whitePlayer.getPieces()) {
                 GRID[p.getPosX()][p.getPosY()] = p;
+
             }
         }
 
