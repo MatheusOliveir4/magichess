@@ -94,6 +94,18 @@ public class Player {
         }
     }
     
+    private List<AbstractCard> discardPile = new ArrayList<>();
+
+    public List<AbstractCard> getDiscardPile() {
+        return discardPile;
+    }
+
+    public void addToDiscardPile(AbstractCard card) {
+        if (card != null) {
+            discardPile.add(card);
+        }
+    }
+    
     public int getCategoryCooldownTurnsLeft(RarityType rarityType) {
         return categoryCooldowns.getOrDefault(rarityType, 0);
     }
@@ -139,16 +151,18 @@ public class Player {
     }
 
     public void decrementCooldownsAndEffects() {
-        for (RarityType rarity : RarityType.values()) {
-            setCategoryCooldownTurnsLeft(rarity, getCategoryCooldownTurnsLeft(rarity) - 1);
-        }
-        for (AbstractCard card : hand) {
-            card.decrementIndividualCooldown();
-        }
-        if (turnsSilenced > 0) {
-            turnsSilenced--;
-        }
-      
+    for (RarityType rarity : RarityType.values()) {
+        setCategoryCooldownTurnsLeft(rarity, getCategoryCooldownTurnsLeft(rarity) - 1);
+    }
+    for (AbstractCard card : hand) {
+        card.decrementIndividualCooldown();
+    }
+    for (AbstractCard card : discardPile) { // Adicione esta linha
+        card.decrementIndividualCooldown();
+    }
+    if (turnsSilenced > 0) {
+        turnsSilenced--;
+    }
     }
    
 }

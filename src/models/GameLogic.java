@@ -552,6 +552,7 @@ public class GameLogic {
         }
     }
     
+    
     public static void playerUsesCardCommand(int cardIndexInHand) {
         if (actualPlayer == null) return;
         if (cardIndexInHand < 1 || cardIndexInHand > actualPlayer.getHand().size()) {
@@ -559,13 +560,15 @@ public class GameLogic {
             return;
         }
         AbstractCard cardToUse = actualPlayer.getHand().get(cardIndexInHand - 1);
-        
+
         boolean success = cardToUse.activate(actualPlayer);
-        
+
         if (success) {
-        
+            actualPlayer.removeCardFromHand(cardToUse);
+            actualPlayer.addToDiscardPile(cardToUse); // Move para o descarte
         }
     }
+    
     
     public static void processEndOfTurn(Player playerWhoseTurnEnded) {
         if(playerWhoseTurnEnded == null) return;
