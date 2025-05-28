@@ -15,7 +15,7 @@ public class TrocaEstrategicaCard extends AbstractCard {
     @Override
     protected boolean applyEffect(Player activatingPlayer) {
         models.GameLogic.displayMessage("Escolha a primeira peça sua para trocar:");
-        Optional<Piece> piece1Opt = models.GameLogic.requestPieceSelectionFromPlayer(activatingPlayer, "Selecione a primeira peça:", _ -> true);
+        Optional<Piece> piece1Opt = models.GameLogic.requestPieceSelectionFromPlayer(activatingPlayer, "Selecione a primeira peça:", p -> true);
         if (piece1Opt.isEmpty()) {
             models.GameLogic.displayMessage("Seleção da primeira peça cancelada.");
             return false;

@@ -15,7 +15,7 @@ public class DominioDimensionalCard extends AbstractCard {
     @Override
     protected boolean applyEffect(Player activatingPlayer) {
         models.GameLogic.displayMessage("Escolha uma de suas peças para teleportar:");
-        Optional<Piece> selectedPieceOpt = models.GameLogic.requestPieceSelectionFromPlayer(activatingPlayer, "Selecione a peça:", _ -> true);
+        Optional<Piece> selectedPieceOpt = models.GameLogic.requestPieceSelectionFromPlayer(activatingPlayer, "Selecione a peça:", p -> true);
 
         if (selectedPieceOpt.isEmpty()) {
             models.GameLogic.displayMessage("Nenhuma peça selecionada. Ação cancelada.");
