@@ -20,7 +20,6 @@ MagiChess é um jogo de xadrez por turnos com cartas mágicas, desenvolvido em J
 2. **Comandos disponíveis:**  
    - `move O D` — Move uma peça da origem O para o destino D (ex: `move e2 e4`)
    - `use N` — Usa a carta de número N da sua mão
-   - `hand` — Exibe as cartas na sua mão
    - `help` — Mostra a ajuda
    - `exit` — Sai do jogo
 

@@ -16,7 +16,7 @@ public class Main {
                 }
 
                 System.out.print("\n" + GameLogic.getActualPlayer().getName() + 
-                                   ", digite seu comando ('help', 'move O D', 'use N', 'hand', 'exit'): ");
+                                   ", digite seu comando ('help', 'move O D', 'use N', '', 'exit'): ");
                 if (!GameLogic.getScanner().hasNextLine()) { 
                     System.out.println("Entrada encerrada. Jogo finalizado.");
                     break; 
@@ -27,9 +27,6 @@ public class Main {
                     break;
                 } else if (input.equals("help")) {
                     GameLogic.printHelp();
-                } else if (input.equals("hand")) {
-                
-                    System.out.println("Verificando sua mão (já exibida acima)...");
                 } else if (input.startsWith("move ")) {
                     String[] parts = input.split(" ");
                     if (parts.length == 3) {
