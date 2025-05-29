@@ -164,5 +164,15 @@ public class Player {
         turnsSilenced--;
     }
     }
-   
+       
+    private boolean usedCardThisTurn = false;
+
+    public boolean hasUsedCardThisTurn() {
+        return usedCardThisTurn;
+    }
+
+    public void setUsedCardThisTurn(boolean used) {
+        this.usedCardThisTurn = used;
+    }
+
 }

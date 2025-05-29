@@ -6,7 +6,7 @@ import models.enums.RarityType;
 
 public class TratoFeitoCard extends AbstractCard {
     public TratoFeitoCard() {
-        super("Trato Feito", RarityType.RARA, "Consiga 2 cartas ao inves de uma", 3);
+        super("Trato Feito", RarityType.RARA, "Compre duas cartas.", 3);
     }
 
     @Override

@@ -111,7 +111,6 @@ public class Board {
 
     // --- Métodos para Cartas ---
     public static void activateIceColumn(int columnIndexY, int durationInFullTurns) {
-        
         frozenColumnTurns.put(columnIndexY, durationInFullTurns * 2);
         GameLogic.displayMessage("Coluna '" + GameLogic.coordsToAlgebraic(0, columnIndexY).charAt(0) + "' congelada por " + durationInFullTurns + " turno(s)!");
     }

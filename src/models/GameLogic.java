@@ -100,11 +100,8 @@ public class GameLogic {
         if (piece.getTurnsBlocked() > 0) {
             throw new Exception("Esta peça (" + piece.getType() + ") está bloqueada por mais " + piece.getTurnsBlocked() + " meio(s) de turno.");
         }
-        if (Board.isColumnFrozen(fromY) && fromY != toY) {
-             throw new Exception("Não é possível mover para fora da coluna congelada '" + coordsToAlgebraic(0,fromY).charAt(0) + "'.");
-        }
-        if (Board.isColumnFrozen(toY) && fromY != toY) {
-            throw new Exception("Não é possível mover para dentro da coluna congelada '" + coordsToAlgebraic(0,toY).charAt(0) + "'.");
+        if (Board.isColumnFrozen(fromY) || Board.isColumnFrozen(toY)) {
+            throw new Exception("Esta coluna está congelada e não pode ser usada!");
         }
 
         if (piece instanceof King && Math.abs(toY - fromY) == 2 && fromX == toX) {
@@ -184,11 +181,18 @@ public class GameLogic {
         actualPlayer.setPlayerTurn(false);
         actualPlayer = (actualPlayer == whitePlayer) ? blackPlayer : whitePlayer;
         actualPlayer.setPlayerTurn(true);
-        
+
+        actualPlayer.setUsedCardThisTurn(false); // <-- Resetar uso de carta
+
         displayMessage("");
         displayMessage("--- Turno de " + actualPlayer.getName() + " (" + actualPlayer.getColor() + ") ---");
-        drawNewCardForPlayer(actualPlayer, 1);
-    }
+
+        boolean isFirstTurnOfBlack = (actualPlayer == blackPlayer) &&
+                                    (blackPlayer.getHand().size() == INITIAL_CARDS_PER_PLAYER);
+        if (!isFirstTurnOfBlack) {
+            drawNewCardForPlayer(actualPlayer, 1);
+        }
+}
     
     public static boolean isKingInCheck(models.enums.Color kingColor) {
         Player playerWithKing = (kingColor == Color.WHITE) ? whitePlayer : blackPlayer;
@@ -555,6 +559,10 @@ public class GameLogic {
     
     public static void playerUsesCardCommand(int cardIndexInHand) {
         if (actualPlayer == null) return;
+        if (actualPlayer.hasUsedCardThisTurn()) {
+            displayMessage("Você já usou uma carta neste turno!");
+            return;
+        }
         if (cardIndexInHand < 1 || cardIndexInHand > actualPlayer.getHand().size()) {
             displayMessage("Número da carta inválido. Verifique sua mão.");
             return;
@@ -566,6 +574,7 @@ public class GameLogic {
         if (success) {
             actualPlayer.removeCardFromHand(cardToUse);
             actualPlayer.addToDiscardPile(cardToUse); // Move para o descarte
+            actualPlayer.setUsedCardThisTurn(true);   // Marca que já usou carta neste turno
         }
     }
     
